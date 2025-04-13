@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import jsPDF from 'jspdf';
 
 import InsuranceForm from './InsuranceForm';
@@ -12,8 +13,8 @@ type InsurancePolicy = {
   lifeInsured: string;
   sumAssured: number;
   nominee: string;
-  policyPaymentTerm: string;
-  premiumPaymentFrequency: string;
+  policyPaymentTerm: number;
+  premiumPaymentFrequency: number;
   lastPremiumPaid: string;
   nextPremiumDue: string;
   maturityDate: string;
@@ -21,9 +22,29 @@ type InsurancePolicy = {
 };
 
 function Insurance() {
-  const [insurance, setInsurance] = useState<InsurancePolicy[]>([]);
+  const [insurance, setInsuranceData] = useState<InsurancePolicy[]>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchInsuranceData = async () => {
+      setLoading(true);
+      try {
+        const data: Insurance[] = await invoke('get_insurance_data');
+        setInsuranceData(data);
+      } catch (error) {
+        console.error('Error fetching insurance data: ', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInsuranceData();
+  }, []);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   const downloadCSV = () => {
     const getDateTime = () => {
@@ -128,10 +149,6 @@ function Insurance() {
     doc.save(filename);
   };
 
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
   return (
     <div>
       <table className="table">
@@ -153,21 +170,23 @@ function Insurance() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-          </tr>
+          {insurance.map((policy, index) => (
+            <tr key={index}>
+              <td>{policy.insuranceProvider}</td>
+              <td>{policy.policyNumber}</td>
+              <td>{policy.policyName}</td>
+              <td>{policy.policyHolder}</td>
+              <td>{policy.lifeInsured}</td>
+              <td>{policy.sumAssured}</td>
+              <td>{policy.nominee}</td>
+              <td>{policy.policyPaymentTerm}</td>
+              <td>{policy.premiumPaymentFrequency}</td>
+              <td>{policy.lastPremiumPaid}</td>
+              <td>{policy.nextPremiumDue}</td>
+              <td>{policy.maturityDate}</td>
+              <td>{policy.maturityAmount}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <div className="buttonCluster">

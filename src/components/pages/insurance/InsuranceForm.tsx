@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import './InsuranceForm.css';
 
 type Props = {
@@ -27,11 +28,60 @@ function InsuranceForm({ closeForm }: Props) {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+
+    try {
+      const {
+        insuranceProvider,
+        policyNumber,
+        policyName,
+        policyHolder,
+        lifeInsured,
+        sumAssured,
+        nominee,
+        policyPaymentTerm,
+        premiumPaymentFrequency,
+        lastPremiumPaid,
+        nextPremiumDue,
+        maturityDate,
+        maturityAmount,
+      } = formData;
+
+      // Convert form values to appropriate types where necessary
+      const sumAssuredNumber = parseFloat(sumAssured);
+      const policyPaymentTermNumber = parseInt(policyPaymentTerm, 10);
+      const maturityAmountNumber = parseFloat(maturityAmount);
+
+      // Call the Tauri backend command to insert insurance data
+      await invoke('insert_insurance', {
+        insuranceProvider,
+        policyNumber,
+        policyName,
+        policyHolder,
+        lifeInsured,
+        sumAssured: sumAssuredNumber,
+        nominee,
+        policyPaymentTerm: policyPaymentTermNumber,
+        premiumPaymentFrequency,
+        lastPremiumPaid,
+        nextPremiumDue,
+        maturityDate,
+        maturityAmount: maturityAmountNumber,
+      });
+
+      console.log('Insurance data inserted successfully');
+      closeForm(); // Close the form after successful submission
+    } catch (error) {
+      console.error('Failed to insert insurance data:', error);
+    }
+  };
+
   return (
     <div className="popup-overlay">
       <div className="popup-form">
         <h2>Add Insurance</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <label>Insurance Provider: </label>
             <input
