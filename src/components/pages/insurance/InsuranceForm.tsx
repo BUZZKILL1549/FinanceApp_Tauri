@@ -51,6 +51,7 @@ function InsuranceForm({ closeForm }: Props) {
       // Convert form values to appropriate types where necessary
       const sumAssuredNumber = parseFloat(sumAssured);
       const policyPaymentTermNumber = parseInt(policyPaymentTerm, 10);
+      const premiumPaymentFrequencyNumber = parseInt(premiumPaymentFrequency, 10);
       const maturityAmountNumber = parseFloat(maturityAmount);
 
       // Call the Tauri backend command to insert insurance data
@@ -63,7 +64,7 @@ function InsuranceForm({ closeForm }: Props) {
         sumAssured: sumAssuredNumber,
         nominee,
         policyPaymentTerm: policyPaymentTermNumber,
-        premiumPaymentFrequency,
+        premiumPaymentFrequency: premiumPaymentFrequencyNumber,
         lastPremiumPaid,
         nextPremiumDue,
         maturityDate,
