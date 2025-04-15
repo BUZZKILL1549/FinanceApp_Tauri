@@ -20,6 +20,24 @@ struct Insurance {
     maturity_amount: i32,
 }
 
+#[derive(serde::Serialize, Debug)]
+struct Investments {
+    financial_organization: String,
+    name_of_financial_organization: String,
+    branch_address: String,
+    type_of_investment: String,
+    investment_number: String,
+    investment_holder: String,
+    nominee: String,
+    nominee_guardian: String,
+    investment_amount: f64,
+    rate_of_interest: f64,
+    investment_date: String,
+    investment_duration: f64,
+    maturity_date: String,
+    maturity_amount: f64,
+}
+
 #[tauri::command]
 fn initialize_database() -> Result<(), String> {
     let connection = Connection::open("app_data.sqlite").map_err(|e| e.to_string())?;
@@ -167,6 +185,52 @@ fn insert_insurance(
 }
 
 #[tauri::command]
+fn get_investments_data() -> Result<Vec<Investments>, String> {
+    let connection = Connection::open("app_data.sqlite").unwrap();
+
+    let mut statement = connection
+        .prepare(
+            "
+        SELECT FinancialOrganization, NameOfFinancialOrganization, BranchAddress,
+               TypeOfInvestment, InvestmentNumber, InvestmentHolder, Nominee,
+               NomineeGuardian, InvestmentAmount, RateOfInterest, InvestmentDate,
+               InvestmentDuration, MaturityDate, MaturityAmount
+        FROM investments;
+        ",
+        )
+        .map_err(|e| e.to_string())?;
+
+    let investments_data = statement
+        .query_map([], |row| {
+            Ok(Investments {
+                financial_organization: row.get(0)?,
+                name_of_financial_organization: row.get(1)?,
+                branch_address: row.get(2)?,
+                type_of_investment: row.get(3)?,
+                investment_number: row.get(4)?,
+                investment_holder: row.get(5)?,
+                nominee: row.get(6)?,
+                nominee_guardian: row.get(7)?,
+                investment_amount: row.get(8)?,
+                rate_of_interest: row.get(9)?,
+                investment_date: row.get(10)?,
+                investment_duration: row.get(11)?,
+                maturity_date: row.get(12)?,
+                maturity_amount: row.get(13)?,
+            })
+        })
+        .map_err(|e| e.to_string());
+
+    let investments_vec: Vec<Investments> = investments_data?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| e.to_string())?;
+
+    println!("Fetched insurance data: {:?}", investments_vec);
+
+    Ok(investments_vec)
+}
+
+#[tauri::command]
 fn insert_investments(
     financial_organization: String,
     name_of_financial_organization: String,
@@ -190,7 +254,7 @@ fn insert_investments(
             "
             INSERT INTO investments (
                 FinancialOrganization, NameOfFinancialOrganization, BranchAddress,
-                TypeOfInvestment, InvestmentNumber, investment_holder, Nominee,
+                TypeOfInvestment, InvestmentNumber, InvestmentHolder, Nominee,
                 NomineeGuardian, InvestmentAmount, RateOfInterest, InvestmentDate,
                 InvestmentDuration, MaturityDate, MaturityAmount
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -227,6 +291,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             initialize_database,
             get_insurance_data,
+            get_investments_data,
             insert_insurance,
             insert_investments,
         ])

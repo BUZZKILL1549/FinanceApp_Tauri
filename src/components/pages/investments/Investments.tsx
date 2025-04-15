@@ -1,30 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import jsPDF from 'jspdf';
 
 import InvestmentsForm from './InvestmentsForm';
 import './Investments.css';
 
 type InvestmentsPolicy = {
-  financialOrganization: string;
-  nameOfFinancialOrganization: string;
-  branchAddress: string;
-  typeOfInvestment: string;
-  investmentNumber: string;
-  investmentHolder: string;
+  financial_organization: string;
+  name_of_financial_organization: string;
+  branch_address: string;
+  type_of_investment: string;
+  investment_number: string;
+  investment_holder: string;
   nominee: string;
-  nomineeGuardian: string;
-  investmentAmount: number;
-  rateOfInterest: number;
-  investmentDate: string;
-  investmentDuration: string;
-  maturityDate: string;
-  maturityAmount: number;
+  nominee_guardian: string;
+  investment_amount: number;
+  rate_of_interest: number;
+  investment_date: string;
+  investment_duration: string;
+  maturity_date: string;
+  maturity_amount: number;
 };
 
 function Investments() {
-  const [investments, setInvestments] = useState<InvestmentsPolicy[]>([]);
+  const [investments, setInvestmentsData] = useState<InvestmentsPolicy[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const fetchInvestmentsData = async () => {
+    setLoading(true);
+    try {
+      const data: InvestmentsPolicy[] = await invoke('get_investments_data');
+      setInvestmentsData(data);
+    } catch (error) {
+      console.error('Error fetching investments data: ', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvestmentsData();
+  }, []);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>
+  }
 
   const downloadCSV = () => {
     const getDateTime = () => {
@@ -58,20 +79,20 @@ function Investments() {
 
     const rows = investments.map((investment) =>
       [
-        investment.financialOrganization,
-        investment.nameOfFinancialOrganization, 
-        investment.branchAddress,
-        investment.typeOfInvestment,
-        investment.investmentNumber,
-        investment.investmentHolder,
+        investment.financial_organization,
+        investment.name_of_financial_organization, 
+        investment.branch_address,
+        investment.type_of_investment,
+        investment.investment_number,
+        investment.investment_holder,
         investment.nominee,
-        investment.nomineeGuardian,
-        investment.investmentAmount,
-        investment.rateOfInterest, 
-        investment.investmentDate,
-        investment.investmentDuration,
-        investment.maturityDate,
-        investment.maturityAmount,
+        investment.nominee_guardian,
+        investment.investment_amount,
+        investment.rate_of_interest, 
+        investment.investment_date,
+        investment.investment_duration,
+        investment.maturity_date,
+        investment.maturity_amount,
       ].join(',')
     );
     
@@ -112,7 +133,7 @@ function Investments() {
     y += 10;
 
     investments.forEach((investment, index) => {
-      const data = `${index + 1}. ${investment.financialOrganization}, ${investment.nameOfFinancialOrganization}, ${investment.typeOfInvestment}, ${investment.investmentAmount}, ${investment.maturityDate}`;
+      const data = `${index + 1}. ${investment.financial_organization}, ${investment.name_of_financial_organization}, ${investment.type_of_investment}, ${investment.investment_amount}, ${investment.maturity_date}`;
       doc.text(data, 10, y, { maxWidth: 190 });
       y += 10;
 
@@ -152,22 +173,24 @@ function Investments() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-          </tr>
+          {investments.map((policy, index) => (
+            <tr key={index}>
+              <td>{policy.financial_organization}</td>
+              <td>{policy.name_of_financial_organization}</td>
+              <td>{policy.branch_address}</td>
+              <td>{policy.type_of_investment}</td>
+              <td>{policy.investment_number}</td>
+              <td>{policy.investment_holder}</td>
+              <td>{policy.nominee}</td>
+              <td>{policy.nominee_guardian}</td>
+              <td>{policy.investment_amount}</td>
+              <td>{policy.rate_of_interest}</td>
+              <td>{policy.investment_date}</td>
+              <td>{policy.investment_duration}</td>
+              <td>{policy.maturity_date}</td>
+              <td>{policy.maturity_amount}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       <div className="buttonCluster">
@@ -179,6 +202,7 @@ function Investments() {
       {showForm && (
         <InvestmentsForm
           closeForm={() => setShowForm(false)}
+          refreshData={fetchInvestmentsData}
         />
       )} 
     </div>

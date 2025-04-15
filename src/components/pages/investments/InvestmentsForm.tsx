@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import { invoke } from '@tauri-apps/api/core';
 import './InvestmentsForm.css';
 
 type Props = {
   closeForm: () => void;
+  refreshData: () => void;
 };
 
-function InvestmentsForm({ closeForm }: Props) {
+function InvestmentsForm({ closeForm, refreshData }: Props) {
   const [formData, setFormData] = useState({
     financialOrganization: '',
-    nameOfFinancialInstitution: '',
+    nameOfFinancialOrganization: '',
     branchAddress: '',
     typeOfInvestment: '',
     investmentNumber: '',
@@ -28,11 +30,62 @@ function InvestmentsForm({ closeForm }: Props) {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+
+    try {
+      const {
+        financialOrganization,
+        nameOfFinancialOrganization,
+        branchAddress,
+        typeOfInvestment,
+        investmentNumber,
+        investmentHolder,
+        nominee,
+        nomineeGuardian,
+        investmentAmount,
+        rateOfInterest,
+        investmentDate,
+        investmentDuration,
+        maturityDate,
+        maturityAmount
+      } = formData;
+
+      const investmentAmountNumber = parseFloat(investmentAmount);
+      const rateOfInterestNumber = parseFloat(rateOfInterest);
+      const investmentDurationNumber = parseFloat(investmentDuration);
+      const maturityAmountNumber = parseFloat(maturityAmount);
+
+      await invoke('insert_investments', {
+        financialOrganization,
+        nameOfFinancialOrganization,
+        branchAddress,
+        typeOfInvestment,
+        investmentNumber,
+        investmentHolder,
+        nominee,
+        nomineeGuardian,
+        investmentAmount: investmentAmountNumber,
+        rateOfInterest: rateOfInterestNumber,
+        investmentDate,
+        investmentDuration: investmentDurationNumber,
+        maturityDate,
+        maturityAmount: maturityAmountNumber
+      });
+
+      console.log('Investments data inserted successfully');
+      refreshData();
+      closeForm();
+    } catch (error) {
+      console.error('Failed to insert insurance data: ', error);
+    }
+  };
+ 
   return (
     <div className="popup-overlay">
       <div className="popup-form">
         <h2>Add Investment</h2>
-        <form >
+        <form onSubmit={handleSubmit}>
           <div>
             <label>Financial Organization</label>
             <input
@@ -47,8 +100,8 @@ function InvestmentsForm({ closeForm }: Props) {
             <label>Name of Financial Institution: </label>
             <input
               type="text"
-              name="nameOfFinancialInstitution"
-              value={formData.nameOfFinancialInstitution}
+              name="nameOfFinancialOrganization"
+              value={formData.nameOfFinancialOrganization}
               onChange={handleChange}
               required
             />
