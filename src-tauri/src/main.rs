@@ -2,9 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use rusqlite::{Connection, Result};
-use tauri::Manager;
 
-#[derive(serde::Serialize)]
+#[derive(serde::Serialize, Debug)]
 struct Insurance {
     insurance_provider: String,
     policy_number: String,
@@ -114,6 +113,8 @@ fn get_insurance_data() -> Result<Vec<Insurance>, String> {
     let insurance_vec: Vec<Insurance> = insurance_data?
         .collect::<Result<Vec<_>, _>>()
         .map_err(|e| e.to_string())?;
+
+    println!("Fetched insurance data: {:?}", insurance_vec);
 
     Ok(insurance_vec)
 }

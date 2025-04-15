@@ -6,19 +6,19 @@ import InsuranceForm from './InsuranceForm';
 import './Insurance.css';
 
 type InsurancePolicy = {
-  insuranceProvider: string;
-  policyNumber: string;
-  policyName: string;
-  policyHolder: string;
-  lifeInsured: string;
-  sumAssured: number;
+  insurance_provider: string;
+  policy_number: string;
+  policy_name: string;
+  policy_holder: string;
+  life_insured: string;
+  sum_assured: number;
   nominee: string;
-  policyPaymentTerm: number;
-  premiumPaymentFrequency: number;
-  lastPremiumPaid: string;
-  nextPremiumDue: string;
-  maturityDate: string;
-  maturityAmount: number;
+  policy_payment_term: number;
+  premium_payment_frequency: number;
+  last_premium_paid: string;
+  next_premium_due: string;
+  maturity_date: string;
+  maturity_amount: number;
 };
 
 function Insurance() {
@@ -26,19 +26,19 @@ function Insurance() {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchInsuranceData = async () => {
-      setLoading(true);
-      try {
-        const data: Insurance[] = await invoke('get_insurance_data');
-        setInsuranceData(data);
-      } catch (error) {
-        console.error('Error fetching insurance data: ', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchInsuranceData = async () => {
+    setLoading(true);
+    try {
+      const data: InsurancePolicy[] = await invoke('get_insurance_data');
+      setInsuranceData(data);
+    } catch (error) {
+      console.error('Error fetching insurance data: ', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchInsuranceData();
   }, []);
 
@@ -77,19 +77,19 @@ function Insurance() {
 
     const rows = insurance.map((policy) =>
       [
-        policy.insuranceProvider,
-        policy.policyNumber,
-        policy.policyName,
-        policy.policyHolder,
-        policy.lifeInsured,
-        policy.sumAssured.toString(),
+        policy.insurance_provider,
+        policy.policy_number,
+        policy.policy_name,
+        policy.policy_holder,
+        policy.life_insured,
+        policy.sum_assured.toString(),
         policy.nominee,
-        policy.policyPaymentTerm,
-        policy.premiumPaymentFrequency,
-        policy.lastPremiumPaid,
-        policy.nextPremiumDue,
-        policy.maturityDate,
-        policy.maturityAmount.toString(),
+        policy.policy_payment_term,
+        policy.premium_payment_frequency,
+        policy.last_premium_paid,
+        policy.next_premium_due,
+        policy.maturity_date,
+        policy.maturity_amount.toString(),
       ].join(',')
     );
 
@@ -135,7 +135,7 @@ function Insurance() {
     y += 10;
 
     insurance.forEach((policy, index) => {
-      const data = `${index + 1}. ${policy.insuranceProvider}, ${policy.policyNumber}, ${policy.policyName}, ${policy.policyHolder}, ${policy.lifeInsured}, ${policy.sumAssured}, ${policy.nominee}, ${policy.policyPaymentTerm}, ${policy.premiumPaymentFrequency}, ${policy.lastPremiumPaid}, ${policy.nextPremiumDue}, ${policy.maturityDate}, ${policy.maturityAmount}`;
+      const data = `${index + 1}. ${policy.insurance_provider}, ${policy.policy_number}, ${policy.policy_name}, ${policy.policy_holder}, ${policy.life_insured}, ${policy.sum_assured}, ${policy.nominee}, ${policy.policy_payment_term}, ${policy.premium_payment_frequency}, ${policy.last_premium_paid}, ${policy.next_premium_due}, ${policy.maturity_date}, ${policy.maturity_amount}`;
       doc.text(data, 10, y, { maxWidth: 190 });
       y += 10;
 
@@ -172,19 +172,19 @@ function Insurance() {
         <tbody>
           {insurance.map((policy, index) => (
             <tr key={index}>
-              <td>{policy.insuranceProvider}</td>
-              <td>{policy.policyNumber}</td>
-              <td>{policy.policyName}</td>
-              <td>{policy.policyHolder}</td>
-              <td>{policy.lifeInsured}</td>
-              <td>{policy.sumAssured}</td>
+              <td>{policy.insurance_provider}</td>
+              <td>{policy.policy_number}</td>
+              <td>{policy.policy_name}</td>
+              <td>{policy.policy_holder}</td>
+              <td>{policy.life_insured}</td>
+              <td>{policy.sum_assured}</td>
               <td>{policy.nominee}</td>
-              <td>{policy.policyPaymentTerm}</td>
-              <td>{policy.premiumPaymentFrequency}</td>
-              <td>{policy.lastPremiumPaid}</td>
-              <td>{policy.nextPremiumDue}</td>
-              <td>{policy.maturityDate}</td>
-              <td>{policy.maturityAmount}</td>
+              <td>{policy.policy_payment_term}</td>
+              <td>{policy.premium_payment_frequency}</td>
+              <td>{policy.last_premium_paid}</td>
+              <td>{policy.next_premium_due}</td>
+              <td>{policy.maturity_date}</td>
+              <td>{policy.maturity_amount}</td>
             </tr>
           ))}
         </tbody>
@@ -198,6 +198,7 @@ function Insurance() {
       {showForm && (
         <InsuranceForm
           closeForm={() => setShowForm(false)}
+          refreshData={fetchInsuranceData}
         />
       )} 
     </div>

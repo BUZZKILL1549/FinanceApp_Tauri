@@ -4,9 +4,10 @@ import './InsuranceForm.css';
 
 type Props = {
   closeForm: () => void;
+  refreshData: () => void;
 };
 
-function InsuranceForm({ closeForm }: Props) {
+function InsuranceForm({ closeForm, refreshData }: Props) {
   const [formData, setFormData] = useState({
     insuranceProvider: '',
     policyNumber: '',
@@ -72,6 +73,7 @@ function InsuranceForm({ closeForm }: Props) {
       });
 
       console.log('Insurance data inserted successfully');
+      refreshData();
       closeForm(); // Close the form after successful submission
     } catch (error) {
       console.error('Failed to insert insurance data:', error);
