@@ -7,6 +7,7 @@ import Login from './components/pages/login/Login';
 import Dashboard from './components/pages/dashboard/Dashboard';
 import Insurance from './components/pages/insurance/Insurance';
 import Investments from './components/pages/investments/Investments';
+import Settings from './components/pages/settings/Settings';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -36,6 +37,7 @@ function AppContent({ isAuthenticated, handleLogin }: { isAuthenticated: boolean
           <Route path="/" element={isAuthenticated ? (<Dashboard />) : (<Navigate to="/login" replace />)} />
           <Route path="/insurance" element={isAuthenticated ? (<Insurance />) : (<Navigate to="/login" replace />)} />
           <Route path="/investments" element={isAuthenticated ? (<Investments />) : (<Navigate to="/login" replace />)} />
+          <Route path="/settings" element={isAuthenticated ? (<Settings />) : (<Navigate to="/login" replace />)} />
         </Routes>
       </div>
     </>
