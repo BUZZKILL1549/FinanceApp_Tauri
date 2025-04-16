@@ -54,7 +54,6 @@ function Navbar() {
           <List style={styles.bottomList}>
             <ListItem disablePadding>
               <ListItemButton onClick={() => {
-                console.log('settings');
                 toggleDrawer(false);
               }}>
                 <Link to="/settings" style={styles.drawerLink}>
@@ -63,7 +62,11 @@ function Navbar() {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>    
-              <ListItemText primary="Logout" />
+              <ListItemButton onClick={() => toggleDrawer(false)}>
+                <Link to="/login" style={styles.drawerLink}>
+                  <ListItemText primary="Log out" />
+                </Link>
+              </ListItemButton>
             </ListItem>
           </List>
         </div>

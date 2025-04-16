@@ -132,8 +132,6 @@ fn get_insurance_data() -> Result<Vec<Insurance>, String> {
         .collect::<Result<Vec<_>, _>>()
         .map_err(|e| e.to_string())?;
 
-    println!("Fetched insurance data: {:?}", insurance_vec);
-
     Ok(insurance_vec)
 }
 
@@ -224,8 +222,6 @@ fn get_investments_data() -> Result<Vec<Investments>, String> {
     let investments_vec: Vec<Investments> = investments_data?
         .collect::<Result<Vec<_>, _>>()
         .map_err(|e| e.to_string())?;
-
-    println!("Fetched insurance data: {:?}", investments_vec);
 
     Ok(investments_vec)
 }

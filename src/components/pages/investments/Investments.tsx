@@ -133,7 +133,7 @@ function Investments() {
     y += 10;
 
     investments.forEach((investment, index) => {
-      const data = `${index + 1}. ${investment.financial_organization}, ${investment.name_of_financial_organization}, ${investment.type_of_investment}, ${investment.investment_amount}, ${investment.maturity_date}`;
+      const data = `${index + 1}. ${investment.financial_organization}, ${investment.name_of_financial_organization}, ${investment.type_of_investment}, ${investment.investment_number}, ${investment.investment_holder}, ${investment.nominee}, ${investment.nominee_guardian}, ${investment.investment_amount}, ${investment.rate_of_interest}, ${investment.investment_date}, ${investment.investment_duration}, ${investment.maturity_date}, ${investment.maturity_amount}`;
       doc.text(data, 10, y, { maxWidth: 190 });
       y += 10;
 
