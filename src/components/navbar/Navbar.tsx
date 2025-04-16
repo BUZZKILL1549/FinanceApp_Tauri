@@ -117,6 +117,7 @@ const styles = {
   },
   mainList: {
     padding: 0,
+    borderBottom: '1px solid #eee',
   },
   bottomList: {
     padding: 0,
