@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { invoke } from '@tauri-apps/api/core';
+import { safeInvoke } from '../../../utils/tauriInvoke';
+import { useToast } from '../../../contexts/ToastContext';
 import './InsuranceForm.css';
 
 type Props = {
@@ -41,6 +42,7 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { addToast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -53,19 +55,19 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
     const maturityAmountNumber = parseFloat(formData.maturityAmount);
 
     if (!Number.isFinite(sumAssuredNumber) || sumAssuredNumber < 0) {
-      alert('Please provide a valid Sum Assured.');
+      addToast('Please provide a valid Sum Assured.', 'error');
       return false;
     }
     if (!Number.isFinite(policyPaymentTermNumber) || policyPaymentTermNumber <= 0) {
-      alert('Please provide a valid Policy Payment Term (years).');
+      addToast('Please provide a valid Policy Payment Term (years).', 'error');
       return false;
     }
     if (!Number.isFinite(maturityAmountNumber) || maturityAmountNumber < 0) {
-      alert('Please provide a valid Maturity Amount.');
+      addToast('Please provide a valid Maturity Amount.', 'error');
       return false;
     }
     if (!formData.premiumPaymentFrequency) {
-      alert('Please select a premium payment frequency.');
+      addToast('Please select a premium payment frequency.', 'error');
       return false;
     }
     return true;
@@ -97,10 +99,10 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
 
       const sumAssuredNumber = parseFloat(sumAssured);
       const policyPaymentTermNumber = parseInt(policyPaymentTerm, 10);
-      const premiumPaymentFrequencyNumber = parseInt(premiumPaymentFrequency, 10); // numeric option value
+      const premiumPaymentFrequencyNumber = parseInt(premiumPaymentFrequency, 10);
       const maturityAmountNumber = parseFloat(maturityAmount);
 
-      await invoke('insert_insurance', {
+      await safeInvoke('insert_insurance', {
         insuranceProvider,
         policyNumber,
         policyName,
@@ -116,12 +118,12 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
         maturityAmount: maturityAmountNumber,
       });
 
-      alert('Insurance record added successfully.');
+      addToast('Insurance record added successfully.', 'success');
       refreshData();
       closeForm();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to insert insurance data:', error);
-      alert('Failed to add insurance record. See console for details.');
+      addToast(error?.message ?? 'Failed to add insurance record.', 'error');
     } finally {
       setIsSubmitting(false);
     }
