@@ -1,14 +1,24 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import './Navbar.css';
 
-function Navbar() {
+type Props = {
+  onLogout: () => void;
+};
+
+function Navbar({ onLogout }: Props) {
+  const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const toggleDrawer = (open: boolean) => {
     setDrawerOpen(open);
   };
+  const handleLogoutClick = () => {
+    toggleDrawer(false);
+    onLogout();
+    navigate("/login", { replace: true });
+  }
 
   return (
     <nav className="nav">
@@ -59,7 +69,7 @@ function Navbar() {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => toggleDrawer(false)}>
+              <ListItemButton onClick={handleLogoutClick}>
                 <Link to="/logout" className="drawerLink">
                   <ListItemText primary="Logout" />
                 </Link>

@@ -17,7 +17,7 @@ function Login({ onLogin }: Props) {
     if (username === "Aushadh" && password === "password") {
       console.log('login');
       onLogin();
-      navigate("/");
+      navigate("/", { replace: true });
     } else {
       alert("Invalid credentials");
     }
