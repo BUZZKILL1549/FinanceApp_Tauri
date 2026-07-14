@@ -24,9 +24,11 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
     maturityAmount: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData(prev => ({ ...formData, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
@@ -167,6 +169,7 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
           </div>
           <div>
             <label>Premium Payment Frequency: </label>
+            {/*
             <input 
               type="text"
               name="premiumPaymentFrequency"
@@ -174,7 +177,18 @@ function InsuranceForm({ closeForm, refreshData }: Props) {
               onChange={handleChange}
               placeholder="Annual/Bi-annual/Semi-annual"
               required 
-            />
+            /> */}
+            <select
+              name="premiumPaymentFrequency"
+              value={formData.premiumPaymentFrequency}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>Select Frequency</option>
+              <option value="Annual">Annual</option>
+              <option value="Bi-annual">Bi-annual</option>
+              <option value="Semi-annual">Semi-annual</option>
+            </select>
           </div>
           <div>
             <label>Last Premium Paid: </label>
