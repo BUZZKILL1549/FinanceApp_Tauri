@@ -1,5 +1,6 @@
 .tables {
   font-family: 'sans-serif';
+  overflow-x: auto;
 }
 
 .table {

@@ -151,44 +151,46 @@ function Insurance() {
 
   return (
     <div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Insurance Provider</th>
-            <th>Policy Number</th>
-            <th>Policy Name</th>
-            <th>Policy Holder</th>
-            <th>Life Insured</th>
-            <th>Sum Assured</th>
-            <th>Nominee</th>
-            <th>Policy Payment Term</th>
-            <th>Premium Payment Frequency</th>
-            <th>Last Premium Paid</th>
-            <th>Next Premium Due</th>
-            <th>Maturity Date</th>
-            <th>Maturity Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {insurance.map((policy, index) => (
-            <tr key={index}>
-              <td>{policy.insurance_provider}</td>
-              <td>{policy.policy_number}</td>
-              <td>{policy.policy_name}</td>
-              <td>{policy.policy_holder}</td>
-              <td>{policy.life_insured}</td>
-              <td>{policy.sum_assured}</td>
-              <td>{policy.nominee}</td>
-              <td>{policy.policy_payment_term}</td>
-              <td>{policy.premium_payment_frequency}</td>
-              <td>{policy.last_premium_paid}</td>
-              <td>{policy.next_premium_due}</td>
-              <td>{policy.maturity_date}</td>
-              <td>{policy.maturity_amount}</td>
+      <div className="tableWrapper">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Insurance Provider</th>
+              <th>Policy Number</th>
+              <th>Policy Name</th>
+              <th>Policy Holder</th>
+              <th>Life Insured</th>
+              <th>Sum Assured</th>
+              <th>Nominee</th>
+              <th>Policy Payment Term</th>
+              <th>Premium Payment Frequency</th>
+              <th>Last Premium Paid</th>
+              <th>Next Premium Due</th>
+              <th>Maturity Date</th>
+              <th>Maturity Amount</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {insurance.map((policy, index) => (
+              <tr key={index}>
+                <td>{policy.insurance_provider}</td>
+                <td>{policy.policy_number}</td>
+                <td>{policy.policy_name}</td>
+                <td>{policy.policy_holder}</td>
+                <td>{policy.life_insured}</td>
+                <td>{policy.sum_assured}</td>
+                <td>{policy.nominee}</td>
+                <td>{policy.policy_payment_term}</td>
+                <td>{policy.premium_payment_frequency}</td>
+                <td>{policy.last_premium_paid}</td>
+                <td>{policy.next_premium_due}</td>
+                <td>{policy.maturity_date}</td>
+                <td>{policy.maturity_amount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="buttonCluster">
         <button onClick={() => setShowForm(true)}>Add More</button>
         <button onClick={downloadCSV}>Download as CSV</button>

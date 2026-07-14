@@ -153,46 +153,48 @@ function Investments() {
 
   return (
     <div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Financial Organization</th>
-            <th>Name of Financial Institution</th>
-            <th>Branch Address</th>
-            <th>Type of Investment</th>
-            <th>Investment Number</th>
-            <th>Investment Holder</th>
-            <th>Nominee</th>
-            <th>Nominee Guardian</th>
-            <th>Investment Amount</th>
-            <th>Rate of Interest</th>
-            <th>Investment Date</th>
-            <th>Investment Duration</th>
-            <th>Maturity Date</th>
-            <th>Maturity Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {investments.map((policy, index) => (
-            <tr key={index}>
-              <td>{policy.financial_organization}</td>
-              <td>{policy.name_of_financial_organization}</td>
-              <td>{policy.branch_address}</td>
-              <td>{policy.type_of_investment}</td>
-              <td>{policy.investment_number}</td>
-              <td>{policy.investment_holder}</td>
-              <td>{policy.nominee}</td>
-              <td>{policy.nominee_guardian}</td>
-              <td>{policy.investment_amount}</td>
-              <td>{policy.rate_of_interest}</td>
-              <td>{policy.investment_date}</td>
-              <td>{policy.investment_duration}</td>
-              <td>{policy.maturity_date}</td>
-              <td>{policy.maturity_amount}</td>
+      <div className="tableWrapper">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Financial Organization</th>
+              <th>Name of Financial Institution</th>
+              <th>Branch Address</th>
+              <th>Type of Investment</th>
+              <th>Investment Number</th>
+              <th>Investment Holder</th>
+              <th>Nominee</th>
+              <th>Nominee Guardian</th>
+              <th>Investment Amount</th>
+              <th>Rate of Interest</th>
+              <th>Investment Date</th>
+              <th>Investment Duration</th>
+              <th>Maturity Date</th>
+              <th>Maturity Amount</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {investments.map((policy, index) => (
+              <tr key={index}>
+                <td>{policy.financial_organization}</td>
+                <td>{policy.name_of_financial_organization}</td>
+                <td>{policy.branch_address}</td>
+                <td>{policy.type_of_investment}</td>
+                <td>{policy.investment_number}</td>
+                <td>{policy.investment_holder}</td>
+                <td>{policy.nominee}</td>
+                <td>{policy.nominee_guardian}</td>
+                <td>{policy.investment_amount}</td>
+                <td>{policy.rate_of_interest}</td>
+                <td>{policy.investment_date}</td>
+                <td>{policy.investment_duration}</td>
+                <td>{policy.maturity_date}</td>
+                <td>{policy.maturity_amount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="buttonCluster">
         <button onClick={() => setShowForm(true)}>Add More</button>
         <button onClick={downloadCSV}>Download as CSV</button>

@@ -27,6 +27,10 @@
   border-right: none;
 }
 
+.tableWrapper {
+  overflow-x: auto;
+}
+
 .buttonCluster {
   position: absolute;
   bottom: 20px;

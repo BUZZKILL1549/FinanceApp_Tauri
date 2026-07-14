@@ -15,7 +15,7 @@
 .popup-form {
   padding: 20px;
   background: white;
-  width: 900px;
+  width: min(900px, 92vw);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: left;
