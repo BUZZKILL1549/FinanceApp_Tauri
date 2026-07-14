@@ -1,34 +1,33 @@
 .login {
   position: fixed;
   inset: 0;
-  height: 100%;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  font-family: 'sans-serif';
+  font-family: var(--font-sans);
   flex-direction: column;
   padding: 20px;
+  background: transparent;
 }
 
 .loginForm {
   padding: 20px;
   width: clamp(320px, 45vw, 900px);
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   text-align: left;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-soft);
   overflow-y: auto;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: stretch;
   max-height: calc(100vh - 40px);
-  background: #fff; 
+  background: var(--color-surface);
 }
 
 .loginForm div {
-  width: 100%; 
+  width: 100%;
   margin-bottom: 15px;
 }
 
@@ -36,14 +35,18 @@
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+  color: var(--color-text);
 }
 
 .loginForm input {
   width: 100%;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-input-border);
   border-radius: 4px;
   padding: 8px;
   box-sizing: border-box;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: transparent;
 }
 
 .loginForm button {
@@ -51,17 +54,21 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  display: flex;
-  color: black;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-surface);
+  font-family: var(--font-sans);
 }
 
 .loginForm button[type="submit"] {
-  background-color: #aaa;
+  background-color: var(--color-primary);
   font-size: 14px;
 }
 
 .loginForm button:hover {
-  opacity: 0.8;
+  opacity: 0.92;
+  background-color: var(--color-primary-600);
 }
 
 @media (max-width: 600px) {

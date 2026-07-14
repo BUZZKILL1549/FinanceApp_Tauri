@@ -1,20 +1,23 @@
 .settingsOptions {
-  font-family: 'sans-serif';
+  font-family: var(--font-sans);
   text-align: left;
+  color: var(--color-text);
 }
 
 .cloudStorage {
   padding: 10px;
   padding-left: 15px;
   margin-bottom: 15px;
-  border: 1px solid #aaa;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  background: var(--color-surface);
 }
 
 .otherStorage {
   padding: 10px;
   padding-left: 15px;
   margin-bottom: 15px;
-  border: 1px solid #aaa;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  background: var(--color-surface);
 }

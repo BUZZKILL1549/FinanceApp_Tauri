@@ -6,20 +6,22 @@
 .table th {
   padding: 10px;
   text-align: left;
-  background-color: #e0e0e0;
-  font-family: 'sans-serif';
-  border-right: 2px solid white;
+  background-color: var(--color-surface-2);
+  font-family: var(--font-sans);
+  border-right: 2px solid var(--color-surface);
+  color: var(--color-text);
 }
 
 .table tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-input-border);
 }
 
 .table td {
   padding: 10px;
   text-align: left;
-  font-family: 'sans-serif';
-  border-right: 2px solid white;
+  font-family: var(--font-sans);
+  border-right: 2px solid var(--color-surface);
+  color: var(--color-text);
 }
 
 .table th:last-child,
@@ -44,28 +46,29 @@
   padding: 10px 20px;
   font-size: 10px;
   cursor: pointer;
-  background-color: #e0e0e0;
+  background-color: var(--color-surface-2);
   border: none;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  font-family: 'sans-serif';
+  font-family: var(--font-sans);
+  color: var(--color-text);
 }
 
 .buttonCluster button:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .buttonCluster button:active {
-  background-color: #777;
+  background-color: var(--color-active);
 }
 
 .loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: sans-serif;
-  color: #666;
+  font-family: var(--font-sans);
+  color: var(--color-text-muted);
   height: 100px;
   animation: pulse 1.5s ease-in-out infinite;
 }

@@ -3,9 +3,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
-  font-family: sans-serif;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-family: var(--font-sans);
+  box-shadow: var(--shadow-soft);
 }
 
 .leftSection {
@@ -28,7 +29,7 @@
 }
 
 .link {
-  color: #fff;
+  color: var(--color-surface);
   text-decoration: none;
   font-size: 17px;
 }
@@ -44,22 +45,22 @@
 
 .mainList {
   padding: 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-surface-2);
 }
 
 .bottomList {
   padding: 0;
   margin-top: auto;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--color-surface-2);
 }
 
 .drawerLink {
   text-decoration: none;
-  color: #333;
+  color: var(--color-text);
   width: 100%;
 }
 
-/* if < 786px => hide horizontal links; hamburger + drawer only; */
+/* if < 768px => hide horizontal links; hamburger + drawer only; */
 @media (max-width: 768px) {
   .navLinks {
     display: none;

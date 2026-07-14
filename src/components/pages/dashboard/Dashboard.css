@@ -1,5 +1,5 @@
 .tables {
-  font-family: 'sans-serif';
+  font-family: var(--font-sans);
   overflow-x: auto;
 }
 
@@ -11,20 +11,22 @@
 .table th {
   padding: 10px;
   text-align: left;
-  background-color: #e0e0e0;
-  font-family: 'sans-serif';
-  border-right: 2px solid white;
+  background-color: var(--color-surface-2);
+  font-family: var(--font-sans);
+  border-right: 2px solid var(--color-surface);
+  color: var(--color-text);
 }
 
 .table tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-input-border);
 }
 
 .table td {
   padding: 10px;
   text-align: left;
-  font-family: 'sans-serif';
-  border-right: 2px solid white;
+  font-family: var(--font-sans);
+  border-right: 2px solid var(--color-surface);
+  color: var(--color-text);
 }
 
 .table th:last-child,
@@ -33,5 +35,5 @@
 }
 
 .table tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-input-border);
 }
